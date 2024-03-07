@@ -70,6 +70,18 @@ module.exports = async function (fastify, opts) {
             }
         },
     });
+
+    fastify.route({
+        method: 'GET',
+        path: '/checking',
+        handler: async (request, reply) => {
+            try {
+                reply.json("hiiii")
+            } catch (err) {
+                throw fastify.httpErrors.createError(err.status || 500, err.message);
+            }
+        },
+    });
 }
 
 
