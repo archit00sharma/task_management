@@ -76,7 +76,7 @@ module.exports = async function (fastify, opts) {
         path: '/checking',
         handler: async (request, reply) => {
             try {
-                reply.json("hiiii")
+                reply.send("hiiii")
             } catch (err) {
                 throw fastify.httpErrors.createError(err.status || 500, err.message);
             }
