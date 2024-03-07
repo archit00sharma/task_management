@@ -12,6 +12,7 @@ const { taskServices } = require('../services');
 
 const taskController = (fastify) => {
     fastify.register(taskServices);
+    
     const getTaskList = async (request, reply) => {
         try {
             const { page_no, no_of_records } = request;
@@ -64,15 +65,8 @@ const taskController = (fastify) => {
     const putTaskUpdate = async (request, reply) => {
         try {
             const { id } = request.params;
-            const callbackUrl = "https://bb26-2405-201-5c0b-ba0-4db0-7566-1816-e96c.ngrok-free.app"
-
-            fastify.taskQueue.push({ id, callbackUrl, request, reply }, (err) => {
-                if (err) {
-                    console.log("error", err.message)
-                } else {
-                    console.log("completed successfully")
-                }
-            });
+            await fastify.producer({ id, data: request.body });
+            fastify.consumer();
 
             return fastify.successMsg(request, reply);
         } catch (err) {
